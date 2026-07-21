@@ -1,0 +1,105 @@
+table Loan_Details
+	lineageTag: 4263873e-68d3-4f49-a4dc-84599368da14
+
+	column Loan_ID
+		dataType: string
+		lineageTag: 3d40ac11-21d4-4f07-a3b9-9bea298438f5
+		summarizeBy: none
+		sourceColumn: Loan_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_ID
+		dataType: string
+		lineageTag: 9b401757-0cc7-4750-94c1-274006e4d651
+		summarizeBy: none
+		sourceColumn: Customer_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Loan_Amount
+		dataType: int64
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 1ceb2c60-75eb-4778-8c6d-8d22adcc588c
+		summarizeBy: sum
+		sourceColumn: Loan_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Interest_Rate
+		dataType: double
+		lineageTag: 861b427f-1eb9-4a92-975c-71f546193f39
+		summarizeBy: sum
+		sourceColumn: Interest_Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Term
+		dataType: int64
+		formatString: 0
+		lineageTag: d3287da9-c9dc-4f21-aacd-bfc8e050eb49
+		summarizeBy: sum
+		sourceColumn: Term
+
+		annotation SummarizationSetBy = Automatic
+
+	column Loan_Type
+		dataType: string
+		lineageTag: 0b62f8fa-b491-4c2d-9a95-b73f6e7a2abe
+		summarizeBy: none
+		sourceColumn: Loan_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: abf5900b-3959-4f6a-9fb8-446d12ef6327
+		summarizeBy: none
+		sourceColumn: Issue_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Status
+		dataType: string
+		lineageTag: badade6e-846d-46aa-96cf-6ff6119c819b
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Monthly_Installment
+		dataType: double
+		lineageTag: d7553608-4445-49e5-8129-d2f19ca0f760
+		summarizeBy: sum
+		sourceColumn: Monthly_Installment
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Loan_Details = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Souradeep Singha\OneDrive\Documents\power bi projects\project 5\QUESTION_Modeling3POWERBI.xlsx"), null, true),
+				    Loan_Details_Sheet = Source{[Item="Loan_Details",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Loan_Details_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Loan_ID", type text}, {"Customer_ID", type text}, {"Loan_Amount", Int64.Type}, {"Interest_Rate", type number}, {"Term", Int64.Type}, {"Loan_Type", type text}, {"Issue_Date", Int64.Type}, {"Status", type text}, {"Monthly_Installment", type number}, {"Column10", type any}, {"Column11", type any}, {"Column12", type any}, {"Column13", type any}, {"Column14", type any}, {"Column15", type any}, {"Column16", type any}, {"Column17", type any}, {"Column18", type any}, {"Column19", type any}, {"Column20", type any}, {"Column21", type any}, {"Column22", type any}, {"Column23", type any}, {"Column24", type any}, {"Column25", type any}, {"Column26", type any}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16", "Column17", "Column18", "Column19", "Column20", "Column21", "Column22", "Column23", "Column24", "Column25", "Column26"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Columns"),
+				    #"Removed Blank Rows" = Table.SelectRows(#"Removed Duplicates", each not List.IsEmpty(List.RemoveMatchingItems(Record.FieldValues(_), {"", null}))),
+				    #"Removed Errors" = Table.RemoveRowsWithErrors(#"Removed Blank Rows", {"Monthly_Installment", "Loan_ID", "Customer_ID", "Loan_Amount", "Interest_Rate", "Term", "Loan_Type", "Issue_Date", "Status"}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Removed Errors"),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Duplicates1",{{"Issue_Date", type date}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

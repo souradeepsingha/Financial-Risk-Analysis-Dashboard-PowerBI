@@ -1,0 +1,215 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.10.0/schema.json",
+  "name": "4f142739a25cfface488",
+  "position": {
+    "x": 25,
+    "y": 235,
+    "z": 5000,
+    "height": 195,
+    "width": 402.5,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Customer_Details"
+                    }
+                  },
+                  "Property": "Employment_Status"
+                }
+              },
+              "queryRef": "Customer_Details.Employment_Status",
+              "nativeQueryRef": "Employment",
+              "active": true,
+              "displayName": "Employment"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Analysis"
+                    }
+                  },
+                  "Property": "Defaulted_Loans"
+                }
+              },
+              "queryRef": "Analysis.Defaulted_Loans",
+              "nativeQueryRef": "Defaulted_Loans"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Analysis"
+                    }
+                  },
+                  "Property": "Defaulted_Loan_Amount"
+                }
+              },
+              "queryRef": "Analysis.Defaulted_Loan_Amount",
+              "nativeQueryRef": "Defaulted_Loan_Amount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Analysis"
+                  }
+                },
+                "Property": "Defaulted_Loan_Amount"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Defaulted Loans & Amount'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b8fb09a693270377570b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Customer_Details"
+              }
+            },
+            "Property": "Employment_Status"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c5dcdc1d96bc90d330e0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Analysis"
+              }
+            },
+            "Property": "Defaulted_Loans"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7a1ab983b9e5a040ae03",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Analysis"
+              }
+            },
+            "Property": "Defaulted_Loan_Amount"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

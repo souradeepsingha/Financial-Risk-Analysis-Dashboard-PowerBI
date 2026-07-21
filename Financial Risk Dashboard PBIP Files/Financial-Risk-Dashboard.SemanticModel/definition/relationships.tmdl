@@ -1,0 +1,18 @@
+relationship be9c1748-1a68-4322-a9df-4d51d971e704
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_8b35ea86-8d7d-4b1d-aeb9-63e1cba2b316.Date
+
+relationship c4989a20-7093-e0ca-8d25-67c9667bac06
+	fromColumn: Loan_Details.Customer_ID
+	toColumn: Customer_Details.Customer_ID
+
+relationship 56d7f671-f4ea-8d9d-1971-b2ff38bfb258
+	fromColumn: Loan_Details.Issue_Date
+	toColumn: Date.Date
+
+relationship 2eebace3-7258-4ddd-8895-069cfcdbdfe6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Customer_Details.'Loan_Details.Issue_Date'
+	toColumn: LocalDateTable_0ee3a657-4ee8-479b-b4b2-517c47d0c676.Date
+

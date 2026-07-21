@@ -1,0 +1,123 @@
+table Analysis
+	lineageTag: 509d3f28-57c2-436d-bd97-f5a074a044cb
+
+	measure 'Total Loan Amount' =
+			
+			SUM(Loan_Details[Loan_Amount])
+		formatString: 0
+		lineageTag: af8fff45-6bc3-4b0d-85cb-87ef38e282e0
+
+	measure 'Average Interest Rate' =
+			
+			AVERAGE(Loan_Details[Interest_Rate])
+		lineageTag: f2639853-d637-4b4e-82cc-5b8141ee15a6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Monthly Installment' =
+			
+			AVERAGE(Loan_Details[Monthly_Installment])
+		lineageTag: 27535c66-9b4b-4210-9db4-dea0f112ff42
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Loan Status Count' = COUNTROWS(Loan_Details)
+		formatString: 0
+		lineageTag: c792a559-a1e6-4145-870b-971d01787406
+
+	measure 'Total Customers' = COUNTA(Customer_Details[Customer_ID])
+		formatString: 0
+		lineageTag: 6fc6ff02-6896-4af2-8860-39093349f0d7
+
+	measure 'Average Age' =
+			
+			AVERAGE(Customer_Details[Age])
+		lineageTag: 98959378-3f91-4379-b89c-fa9ac4b389e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Income' =
+			
+			AVERAGE(Customer_Details[Income])
+		lineageTag: 6b04d7f6-a238-4ca5-8ad6-e349863f6f45
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Count of Loan ID' = DISTINCTCOUNT(Loan_Details[Loan_ID])
+		formatString: 0
+		lineageTag: 2cbf683c-0e5f-4c4e-8847-cf16418f07ed
+
+	measure 'Count of Customer ID' = DISTINCTCOUNT(Customer_Details[Customer_ID])
+		formatString: 0
+		lineageTag: ad4ad96a-6306-453d-8853-6295ef01972f
+
+	measure 'Average Credit Score' = AVERAGE(Customer_Details[Credit_Score])
+		lineageTag: 00374d2a-16b9-4da4-bc77-b73f0d30e969
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Min of Interest_Rate' = MIN(Loan_Details[Interest_Rate])
+		lineageTag: c6149f29-3dbd-4662-97dc-ce89a470bd86
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Max of Interest_Rate' = ```
+			MAX(Loan_Details[Interest_Rate]) 
+			```
+		lineageTag: 07bf22de-7540-4791-ad41-ecae64704665
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Defaulted_Loans =
+			
+			CALCULATE(
+			    COUNTROWS(loan_details),
+			    loan_details[Status] = "Defaulted"
+			)
+		formatString: 0
+		lineageTag: c5485f85-2462-482b-8652-2b7349d38c47
+
+	measure Defaulted_Loan_Amount =
+			CALCULATE(
+			    SUM(Loan_Details[Loan_Amount]),
+			    FILTER(Loan_Details, Loan_Details[Status] = "Defaulted")
+			)
+		formatString: 0
+		lineageTag: d2ca2b3e-1c26-42e1-a610-7cd7670d9739
+
+	measure High_Risk_Loans =
+			
+			CALCULATE(
+			    COUNTROWS(Loan_details),
+			    customer_details[Risk Category] = "High Risk"
+			)
+		formatString: 0
+		lineageTag: c2a19db3-04ac-44fb-a101-1cf83e9d2ad0
+
+	measure High_Risk_Loan_Amount =
+			CALCULATE(
+			    SUM(Loan_Details[Loan_Amount]),
+			    FILTER(Customer_Details, Customer_Details[Risk Category]="High Risk"
+			))
+		formatString: 0
+		lineageTag: b03439fe-0a68-42b6-80c8-186dd8aa3bd1
+
+	column Column1
+		dataType: string
+		lineageTag: fd3e1fa1-7a7f-4b27-b030-927d822e3257
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Analysis = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
