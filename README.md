@@ -1,6 +1,6 @@
-# 📊 Financial Risk Dashboard | Power BI
+# 📊 Financial Risk Analysis Dashboard | Power BI
 
-An interactive **Financial Risk Dashboard** developed using **Power BI** to analyze customer demographics, loan portfolio performance, and financial risk. The dashboard provides valuable insights into loan distribution, customer creditworthiness, default trends, and high-risk customers through interactive visualizations and KPIs.
+An interactive **Financial Risk Analysis Dashboard** developed using **Power BI** to analyze customer demographics, loan portfolio performance, and financial risk. The dashboard provides valuable insights into loan distribution, customer creditworthiness, default trends, and high-risk customers through interactive visualizations and KPIs.
 
 ---
 
